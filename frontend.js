@@ -7,6 +7,7 @@ let playerCount = 0;
 let seats = {};
 let displayConsole =  [];
 let rounds = 0;
+let BetArray = {};
 
 
 socket.onmessage = function(event) {
@@ -137,7 +138,8 @@ function makePlayer(playerData, index) {
 }
 
 function handleBetAction(data) {
-    //console.log(BetActionString(data) + JSON.stringify(data));
+    setBetArray(data);
+    console.log(BetActionString(data) + JSON.stringify(data));
     displayConsole.push(BetActionString(data));
     var Actions = document.getElementById("action-list");
     Actions.children[0].innerHTML = "<li>"+displayConsole[displayConsole.length-1]+"</li>" + Actions.children[0].innerHTML;
@@ -178,8 +180,9 @@ function updateBet(actionEle, newBet){
 }
 
 function handleStateChange(data) {
+    resetBetArray();
     if(data.stateChange.state != "final"){
-        //console.log(StateChangeString(data) + JSON.stringify(data));
+        console.log(StateChangeString(data) + JSON.stringify(data));
         displayConsole.push(StateChangeString(data));
         var Actions = document.getElementById("action-list");
         Actions.children[0].innerHTML = "<li>"+displayConsole[displayConsole.length-1]+"</li>" + Actions.children[0].innerHTML;
@@ -394,19 +397,19 @@ function getAmountFromText(text){
 }
 
 function BetActionString(data){
-    var action_string = "<b>" + data.betAction.player.name + "</b>" + " ";
+    var action_string = "<b>" +data.betAction.player.name + "</b>" + " (" +getCardName([data.betAction.player.cards[0].value, data.betAction.player.cards[0].suit])+", "+getCardName([data.betAction.player.cards[1].value, data.betAction.player.cards[1].suit])+ ") ";
     if(data.betAction.action == "call"){
         action_string += "called with ";
         action_string += data.betAction.bet;
         action_string += " to a total of ";
-        action_string += data.betAction.player.wagered
+        action_string += BetArray[data.betAction.player.name]
     }else if(data.betAction.action == "check"){
         action_string += "checked";
     }else if(data.betAction.action == "raise"){
         action_string += "raised with "
         action_string += data.betAction.bet;
         action_string += " to a total of ";
-        action_string += data.betAction.player.wagered
+        action_string += BetArray[data.betAction.player.name]
     }else if(data.betAction.action == "allIn"){
         action_string += "<b style='color:#FF0000'>" + "went all in !!!" + "</b>"
     }else{
@@ -418,6 +421,7 @@ function BetActionString(data){
 function StateChangeString(data){
     var statechange_string = "";
     if(data.stateChange.state == "pre-flop"){
+        makeBetArray(data);
         statechange_string += "We are in the Pre-flop phase with ";
         statechange_string += "<b>" + data.stateChange.players[data.stateChange.players.length-1].name + "</b>";
         statechange_string += " as dealer, ";
@@ -565,20 +569,36 @@ function getCardName(card){
       }*/
     //cardname +=" of " ;
     cardname += card[0]
-    cardname += getSuitIcon(card)
-    /*switch(card[1]) {
+    switch(card[1]) {
         case "h":
-          cardname += "Hearts"
+        case "d":
+          cardname +=  "<span style='color:#FF0000'>"
+          cardname += getSuitIcon(card)
+          cardname += "</span>"
           break;
         case "s":
-            cardname += "Spades"
-          break;
         case "c":
-            cardname += "Clubs"
-          break;
-        case "d":
-            cardname += "Diamonds"
-            break;        
-      }*/
+            cardname += getSuitIcon(card)
+          break; 
+      }
     return cardname;
+
+    
+}
+
+function makeBetArray(data){
+    data.stateChange.players.forEach(player => {
+        BetArray[player.name] = 0;
+        BetArray[player.name] = player.blind;
+    });
+}
+
+function setBetArray(data){
+    BetArray[data.betAction.player.name] += data.betAction.bet;
+}   
+
+function resetBetArray(){
+    for(var key in BetArray) {
+        BetArray[key] = 0;
+    }
 }

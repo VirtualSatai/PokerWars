@@ -66,6 +66,9 @@ class MachinePoker extends EventEmitter
         @_close()
       else
         @players = @players.concat(@players.shift())
+        while @players[0].chips == 0
+          @players = @players.concat(@players.shift())
+        
         setImmediate => @run()
     game.run()
 

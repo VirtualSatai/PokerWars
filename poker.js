@@ -24,7 +24,7 @@ var expressWs = require('express-ws')(app);
 app.listen(port);
 
 const numberOfPlayers = 8;
-var blinds = [10, 25, 45, 70, 100, 135, 175, 220, 270, 325, 385, 450];
+var blinds = [10, 15, 25, 40, 60, 85, 110, 140, 175, 215, 260, 305, 355];
 var stopAtPlayers = 1
 var rounds = 0
 var startTime = 0
@@ -50,7 +50,7 @@ var players = [
 table.addPlayers(players);
 table.on('roundStart', function (data) { 
     rounds++
-    console.log(rounds + ": " + (new Date().getTime() - startTime) / 1000)
+    //console.log(rounds + ": " + (new Date().getTime() - startTime) / 1000)
     var activePlayerCount = 0;
     data.players.forEach(player => {
         if (player["state"] === "active"){

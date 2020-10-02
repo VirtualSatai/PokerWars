@@ -12,7 +12,7 @@ const noLimitWithIncreasingBlinds = require('../src/bettings/no_limit_with_incre
 var NUMBER_OF_TOURNAMENTS = 50,
     HANDS_PER_TOURNAMENT = 1000,
     CHIPS = 1000,
-    BLINDS = [10, 25, 45, 70, 100, 135, 175, 220, 270, 325, 385, 450];
+    BLINDS = [10, 15, 25, 40, 60, 85, 110, 140, 175, 215, 260, 305, 355];
 
 var MachinePoker = require('machine-poker'),
     JsSeat = MachinePoker.seats.JsLocal;

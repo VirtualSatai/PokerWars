@@ -1,10 +1,11 @@
 const challenger = require('./challenger');
+const randBot5050 = require('./examples/bots/randBot5050');
 
-var NUMBER_OF_TOURNAMENTS = 1000,
-    HANDS_PER_ROUND = 16,
+var NUMBER_OF_TOURNAMENTS = 5000,
+    HANDS_PER_ROUND = 8,
     CHIPS = 1000,
     MAXROUNDS = 1000,
-    BLINDS = [10, 25, 45, 70, 100, 135, 175, 220, 270, 325, 385, 450];
+    BLINDS = [10, 15, 25, 40, 60, 85, 110, 140, 175, 215, 260, 305, 355];
 
 var MachinePoker = require('machine-poker'),
     JsSeat = MachinePoker.seats.JsLocal;
@@ -19,6 +20,7 @@ var MachinePoker = require('machine-poker'),
     indianaJones = require('./examples/bots/indianaJones'),
     martyMcFly = require('./examples/bots/martyMcFly'),
     theJoker = require('./examples/bots/theJoker'),
+    randBot = require('./examples/bots/randBot5050'),
     async = require('async'),
     noLimitWithIncreasingBlinds = require('./src/bettings/no_limit_with_increasing_blinds')
     assert = require('assert');
@@ -36,7 +38,7 @@ var bots = [
     { player: JsSeat.create(jamesBond) }, 
     { player: JsSeat.create(johnMcClane) }, 
     { player: JsSeat.create(jackSparrow) }, 
-    { player: JsSeat.create(batman) },
+    { player: JsSeat.create(randBot) },
     { player: JsSeat.create(darthVader) },
     { player: JsSeat.create(indianaJones) },
     { player: JsSeat.create(ironMan) },
@@ -61,16 +63,50 @@ function runTournaments(n, next) {
         MAXROUNDS,
         runRounds,
         function(err, winnings) {
-            console.log(resetColor);
-            winnings[winnings.length-1].forEach(winner => {
-                if (playerWinnings[winner.player.name]) {
-                    playerWinnings[winner.player.name] += winner.chips;
-                } else {
-                    playerWinnings[winner.player.name] = winner.chips;
+            var payout = winnings[winnings.length-1][0].payout;
+            var winner = winnings[winnings.length-1][0].player.name;
+            if (playerWinnings[winner]) {
+                playerWinnings[winner] += 1;
+            } else {
+                playerWinnings[winner] = 1;
+            }
+            /*var runnerUp = ""
+            winnings[winnings.length-2].forEach(bot => {
+                if(bot.payout === payout * -1){
+                    runnerUp = bot.player.name;
                 }
-                console.log(greenColor + winner.player.name + " Won " + winner.chips  + "$" + resetColor);
             });
-            console.log(playerWinnings);
+            if(runnerUp === ""){
+                largestStack = 0
+                winnings[winnings.length-2].forEach(bot => {
+                    if(bot.payout < largestStack){
+                        largestStack = bot.payout
+                        runnerUp = bot.player.name;
+                    }
+                });
+            }
+            if (playerWinnings[runnerUp]) {
+                playerWinnings[runnerUp] += 25;
+            } else {
+                playerWinnings[runnerUp] = 25;
+            }*/
+            var sortedPlayers = [];
+            for (var player in playerWinnings){
+                sortedPlayers.push([player, playerWinnings[player]]);
+            }
+            sortedPlayers.sort((a,b) => {
+                return b[1] - a[1];
+            });
+            /*res = "";
+            for (var i = 0; i < sortedPlayers.length; i++){
+            
+                res += sortedPlayers[i][0] + "\t\t " + sortedPlayers[i][1]
+                res += "\n"
+                console.log(sortedPlayers[i][0] + ": " + sortedPlayers[i][1])
+            }*/
+            console.clear();
+            console.table(sortedPlayers);
+            //console.log(res);
             next(null, playerWinnings);
         });
     
@@ -106,10 +142,11 @@ function runRounds(n, next){
                 currentBlinds = currentBlinds.slice(1, currentBlinds.length)
             }
             bot.chips = player.chips;
+            bot.payout = player.payout;
             bot.tournamentsPlayed++;
         });
 
-        printTournamentResults(selectedBots);
+        //printTournamentResults(selectedBots);
         next(null, selectedBots);
     });
     table.start();
