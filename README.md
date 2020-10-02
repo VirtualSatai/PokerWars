@@ -11,4 +11,8 @@
 - recommended
     - install Visual Studio Code
 
-please don't start writing your bot before the event
+Links:
+
+https://github.com/goldfire/pokersolver
+https://github.com/mdp/MachinePoker/wiki
+http://www.pokerhandrange.com/
