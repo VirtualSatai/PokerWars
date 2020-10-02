@@ -14,5 +14,7 @@
 Links:
 
 https://github.com/goldfire/pokersolver
+
 https://github.com/mdp/MachinePoker/wiki
+
 http://www.pokerhandrange.com/
