@@ -1,5 +1,17 @@
-const challenger = require('./challenger');
-const randBot5050 = require('./examples/bots/randBot5050');
+const ANLI = require("./ANLI");
+const BasicBitch = require("./BasicBitch");
+const JFC = require("./JFC");
+const MAF = require("./MAF");
+const SteveBuchemi = require("./SteveBuchemi");
+const TRBA = require("./TRBA");
+const brj = require("./brj");
+const dam = require("./dam");
+const jman = require("./jman");
+const jofr = require("./jofr");
+const steinBagger = require("./steinBagger");
+const tbk = require("./TBK");
+const tbknew = require("./challenger.js");
+const TBK = require("./TBK");
 
 var NUMBER_OF_TOURNAMENTS = 5000,
     HANDS_PER_ROUND = 8,
@@ -7,20 +19,8 @@ var NUMBER_OF_TOURNAMENTS = 5000,
     MAXROUNDS = 1000,
     BLINDS = [10, 15, 25, 40, 60, 85, 110, 140, 175, 215, 260, 305, 355];
 
-var MachinePoker = require('machine-poker'),
-    JsSeat = MachinePoker.seats.JsLocal;
-    jackSparrow = require('./examples/bots/jackSparrow'),
-    batman = require('./examples/bots/batman'),
-    ironMan = require('./examples/bots/ironMan'),
-    jamesBond = require('./examples/bots/jamesBond'),
-    tylerDurden = require('./examples/bots/tylerDurden'),
-    aragorn = require('./examples/bots/aragorn'),
-    johnMcClane = require('./examples/bots/johnMcClane'),
-    darthVader = require('./examples/bots/darthVader'),
-    indianaJones = require('./examples/bots/indianaJones'),
-    martyMcFly = require('./examples/bots/martyMcFly'),
-    theJoker = require('./examples/bots/theJoker'),
-    randBot = require('./examples/bots/randBot5050'),
+var MachinePoker = require("machine-poker"),
+  JsSeat = MachinePoker.seats.JsLocal;
     async = require('async'),
     noLimitWithIncreasingBlinds = require('./src/bettings/no_limit_with_increasing_blinds')
     assert = require('assert');
@@ -33,18 +33,19 @@ var redColor = '\033[31m',
 var currentBlinds = BLINDS
 
 var bots = [
-    { player: JsSeat.create(aragorn) },
-    { player: JsSeat.create(tylerDurden) },
-    { player: JsSeat.create(jamesBond) }, 
-    { player: JsSeat.create(johnMcClane) }, 
-    { player: JsSeat.create(jackSparrow) }, 
-    { player: JsSeat.create(randBot) },
-    { player: JsSeat.create(darthVader) },
-    { player: JsSeat.create(indianaJones) },
-    { player: JsSeat.create(ironMan) },
-    { player: JsSeat.create(challenger) },
-    { player: JsSeat.create(martyMcFly) },
-    { player: JsSeat.create(theJoker) },
+  { player: JsSeat.create(ANLI) },
+  { player: JsSeat.create(BasicBitch) },
+  { player: JsSeat.create(JFC) },
+  { player: JsSeat.create(MAF) },
+  { player: JsSeat.create(SteveBuchemi) },
+  { player: JsSeat.create(TRBA) },
+  { player: JsSeat.create(brj) },
+  { player: JsSeat.create(dam) },
+  { player: JsSeat.create(TBK) },
+  { player: JsSeat.create(jofr) },
+  { player: JsSeat.create(steinBagger) },
+  //  { player: JsSeat.create(TBK) },
+  { player: JsSeat.create(tbknew) },
 ];
 
 

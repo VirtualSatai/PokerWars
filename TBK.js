@@ -111,7 +111,7 @@ const BIG_BLINDS_LEFT_BEFORE_TRYING_ALL_IN_ON_FLOP = 15;
 
 module.exports = function () {
   var info = {
-    name: "new spooky",
+    name: "🦇more spooky🦇",
     email: "tbk@netcompany.com",
     btcWallet: "",
   };

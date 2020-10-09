@@ -111,7 +111,7 @@ const BIG_BLINDS_LEFT_BEFORE_TRYING_ALL_IN_ON_FLOP = 15;
 
 module.exports = function () {
   var info = {
-    name: "new spooky",
+    name: "👻spookybot tweak👻",
     email: "tbk@netcompany.com",
     btcWallet: "",
   };
@@ -133,11 +133,6 @@ module.exports = function () {
         }
 
         if (raiseRange.isHandInRange(game.self.cards)) {
-          if (game.self.actions["pre-flop"] != null && game.self.actions["pre-flop"].some((x) => x.type == "raise")) {
-            // if (game.self)
-            return game.betting.call;
-          }
-
           return game.betting.raise;
         } else if (callRange.isHandInRange(game.self.cards)) {
           return game.betting.call;
@@ -146,17 +141,6 @@ module.exports = function () {
         }
       } else {
         var hand = Hand.solve(game.self.cards.concat(game.community));
-        var communityHand = Hand.solve(game.community);
-        if (hand.rank == communityHand.rank) {
-          return 0;
-        }
-
-        // Raise if everyone before me just called and i have at least pair
-        if (didEveryoneBeforeMeCheck(game)) {
-          if (hand.rank >= 2) {
-            return Math.max(getBigBlind(game) * 4, game.betting.call);
-          }
-        }
 
         if (hand.rank >= 5) {
           return Math.max(getBigBlind(game) * 4, game.betting.raise);
@@ -177,12 +161,4 @@ module.exports = function () {
 };
 function getBigBlind(game) {
   return Math.max(...game.players.map((x) => x.blind));
-}
-
-function didEveryoneBeforeMeCheck(game) {
-  return game.players
-    .filter((x) => x.state == "active")
-    .map((x) => x.actions[game.state])
-    .filter((x) => x !== undefined)
-    .every((x) => x[0].type == "check");
 }
