@@ -78,7 +78,8 @@ exports.complete = (function (status) {
 });
 
 function sleep(ms) {
-    var start = new Date().getTime(), expire = start + ms;
-    while (new Date().getTime() < expire) { }
-    return;
+  var start = new Date().getTime(),
+    expire = start + ms;
+  // while (new Date().getTime() < expire) { }
+  return;
 }

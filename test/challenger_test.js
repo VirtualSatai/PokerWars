@@ -1,3 +1,17 @@
+const ANLI = require("../ANLI");
+const BasicBitch = require("../BasicBitch");
+const JFC = require("../JFC");
+const MAF = require("../MAF");
+const SteveBuchemi = require("../SteveBuchemi");
+const TRBA = require("../TRBA");
+const brj = require("../brj");
+const dam = require("../dam");
+const jman = require("../jman");
+const jofr = require("../jofr");
+const steinBagger = require("../steinBagger");
+const tbk = require("../TBK");
+const tbknew = require("../challenger.js");
+const TBK = require("../TBK");
 const challengerBot = require('../challenger');
 const randBot3030 = require('../examples/bots/randBot3030');
 const randBot4040 = require('../examples/bots/randBot4040');
@@ -54,13 +68,19 @@ var totalBankroll = CHIPS * NUMBER_OF_TOURNAMENTS;
 
 function runTournamentsHard(n, next) {
     bots = [
-        { player: JsSeat.create(aragorn)},
-        { player: JsSeat.create(tylerDurden)},
-        { player: JsSeat.create(jamesBond)}, 
-        { player: JsSeat.create(johnMcClane)}, 
-        { player: JsSeat.create(jackSparrow)}, 
-        { player: JsSeat.create(batman)},
-        { player: JsSeat.create(ironMan)}
+      { player: JsSeat.create(ANLI) },
+      { player: JsSeat.create(BasicBitch) },
+      { player: JsSeat.create(JFC) },
+      { player: JsSeat.create(MAF) },
+      { player: JsSeat.create(SteveBuchemi) },
+      { player: JsSeat.create(TRBA) },
+      { player: JsSeat.create(brj) },
+      // { player: JsSeat.create(dam) },
+      { player: JsSeat.create(jman) },
+      { player: JsSeat.create(jofr) },
+      //{ player: JsSeat.create(steinBagger) },
+      //  { player: JsSeat.create(TBK) },
+      { player: JsSeat.create(tbknew) },
     ];
     runTournaments(n, next);
 }
